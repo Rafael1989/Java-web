@@ -1,6 +1,8 @@
 package br.com.caelum.auron.models;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +12,8 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import br.com.caelum.auron.exceptions.SorteioException;
 
 public class SorteadorTest {
 	
@@ -21,6 +25,8 @@ public class SorteadorTest {
 	private Sorteio sorteio;
 	private List<Participante> amigosOcultos;
 	private Set<Participante> amigosOcultosSet;
+	private List<Participante> amigos;
+	private Set<Participante> amigosSet;
 
 	@Before
 	public void setUp() throws Exception {
@@ -33,10 +39,11 @@ public class SorteadorTest {
 		sorteio = new Sorteio();
 		participantes = Arrays.asList(p1,p2,p3);
 		amigosOcultos = new ArrayList<>();
+		amigos = new ArrayList<>();
 	}
 
 	@Test
-	public void aQuantidadeDeParesEParticipantesDeveSerAMesma() {
+	public void aQuantidadeDeParesEParticipantesDeveSerAMesma() throws SorteioException {
 		
 		int totalDeParticipantes = participantes.size();
 		
@@ -49,7 +56,7 @@ public class SorteadorTest {
 	}
 	
 	@Test
-	public void amigosOcultosNaoPodemSeRepetir() {
+	public void amigosOcultosNaoPodemSeRepetir() throws SorteioException {
 		Sorteador sorteador = new Sorteador(sorteio, participantes);
 		sorteador.sortear();
 		for (Par par : sorteio.getPares()) {
@@ -57,6 +64,50 @@ public class SorteadorTest {
 		}
 		amigosOcultosSet = new HashSet<>(amigosOcultos);
 		assertEquals(amigosOcultos.size(), amigosOcultosSet.size());
+	}
+	
+	@Test(expected=SorteioException.class)
+	public void naoDeveAceitarUmaListaComMenosDeDoisParticipantes() throws SorteioException {
+		Sorteador sorteador = new Sorteador(sorteio, new ArrayList());
+		sorteador.sortear();
+	}
+	
+	@Test(expected=SorteioException.class)
+	public void naoDeveAceitarUmaListaNula() throws SorteioException {
+		Sorteador sorteador = new Sorteador(sorteio, null);
+		sorteador.sortear();
+	}
+	
+	@Test
+	public void naoDeveRepetirUmAmigo() throws SorteioException {
+		Sorteador sorteador = new Sorteador(sorteio, participantes);
+		sorteador.sortear();
+		for (Par par : sorteio.getPares()) {
+			amigos.add(par.getAmigoOculto());
+		}
+		amigosSet = new HashSet<>(amigos);
+		assertEquals(amigos.size(), amigosSet.size());
+		
+	}
+	
+	@Test
+	public void verificarSeAmigoEIgualAAmigoOculto() throws SorteioException {
+		Sorteador sorteador = new Sorteador(sorteio, participantes);
+		sorteador.sortear();
+		
+		for(Par par : sorteio.getPares()) {
+			assertFalse(par.getAmigo().equals(par.getAmigoOculto()));
+		}
+	}
+	
+	@Test
+	public void verificarSeAmigoOcultoDoUltimoParEOAmigoDoPrimeiroPar() throws SorteioException {
+		Sorteador sorteador = new Sorteador(sorteio, participantes);
+		sorteador.sortear();
+		
+		List<Par> pares = new ArrayList<>(sorteio.getPares());
+		
+		assertEquals(pares.get(0).getAmigo(),pares.get(pares.size()-1).getAmigoOculto());
 	}
 
 }

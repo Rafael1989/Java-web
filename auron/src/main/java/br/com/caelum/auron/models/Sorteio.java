@@ -49,4 +49,8 @@ public class Sorteio {
 		this.pares.add(par);
 	}
 
+	public int getQuantidadeDePares() {
+		return this.pares.size();
+	}
+
 }

@@ -16,7 +16,6 @@ public class SorteioBean {
 	}
 	
 	public void sortear() {
-		System.out.println("sorteou" + sorteio.getNome());
 	}
 	
 

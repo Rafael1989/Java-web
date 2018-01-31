@@ -36,5 +36,17 @@ public class Par {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	public Participante getAmigoOculto() {
+		return amigoOculto;
+	}
+	
+	public Participante getAmigo() {
+		return amigo;
+	}
+	
+	public Sorteio getSorteio() {
+		return sorteio;
+	}
 
 }

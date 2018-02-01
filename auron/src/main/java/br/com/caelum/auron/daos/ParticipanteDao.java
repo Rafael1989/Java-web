@@ -20,7 +20,6 @@ public class ParticipanteDao {
 
 	public List<Participante> getParticipantes() {
 		return em.createQuery("from Participante", Participante.class).getResultList();
-		
 	}
 	
 	

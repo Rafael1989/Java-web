@@ -1,5 +1,6 @@
 package br.com.caelum.auron.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -15,6 +16,8 @@ public class ParticipanteBean {
 	
 	private Participante participante = new Participante();
 	
+	private List<Participante> participantes;
+	
 	@Inject
 	private ParticipanteDao participanteDao;
 	
@@ -27,7 +30,9 @@ public class ParticipanteBean {
 	}
 	
 	public List<Participante> getParticipantes(){
-		return participanteDao.getParticipantes();
+		if(participantes == null)
+			participantes = participanteDao.getParticipantes();
+		return participantes;
 	}
 
 }

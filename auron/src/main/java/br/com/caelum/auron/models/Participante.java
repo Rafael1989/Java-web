@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 public class Participante {
 
@@ -11,10 +13,13 @@ public class Participante {
 	@GeneratedValue
 	private Integer id;
 
+	@NotEmpty
 	private String nome;
 
+	@NotEmpty
 	private String email;
 
+	@NotEmpty
 	private String senha;
 
 	public Integer getId() {

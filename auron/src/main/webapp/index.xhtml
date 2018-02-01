@@ -9,6 +9,7 @@
 	<title>Insert title here</title>
 	</h:head>
 	<h:body>
+		<p:messages/>
 		<h:form>
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Nome:" />
@@ -20,18 +21,18 @@
 				<p:outputLabel value="Senha:"/>
 				<p:password value="#{participanteBean.participante.senha}" />
 				
-				<p:commandButton action="#{participanteBean.cadastrar}" value="Cadastrar" />
+				<p:commandButton action="#{participanteBean.cadastrar}" process="@form" update="@form :participantes" value="Cadastrar" />
 			</p:panelGrid>
 		</h:form>
-		<h:dataTable value="#{participanteBean.participantes}" var="participante">
-			<h:column>
+		<p:dataTable value="#{participanteBean.participantes}" var="participante" id="participantes">
+			<p:column>
 				<f:facet name="header">Nome:</f:facet>
-				<h:outputText value="#{participante.nome}" />
-			</h:column>
-			<h:column>
+				<p:outputLabel value="#{participante.nome}" />
+			</p:column>
+			<p:column>
 				<f:facet name="header">Email</f:facet>
-				<h:outputText value="#{participante.email}" />
-			</h:column>
-		</h:dataTable>
+				<p:outputLabel value="#{participante.email}" />
+			</p:column>
+		</p:dataTable>
 	</h:body>
 </html>

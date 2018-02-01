@@ -21,6 +21,13 @@ public class ParticipanteDao {
 	public List<Participante> getParticipantes() {
 		return em.createQuery("from Participante", Participante.class).getResultList();
 	}
+
+	public Participante getParticipante(String email, String senha) {
+		return em.createQuery("from Participante p where p.email = ? and p.senha = ?",Participante.class)
+				.setParameter(1, email)
+				.setParameter(2, senha)
+				.getSingleResult();
+	}
 	
 	
 
